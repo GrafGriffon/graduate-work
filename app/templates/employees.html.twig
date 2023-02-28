@@ -1,0 +1,22 @@
+{#<link href="{{ asset('css/product.css') }}" rel="stylesheet"/>#}
+<body>
+<title>Category</title>
+<table style="margin-top: 20px; margin-bottom: 20px">
+
+    <tr>
+        <th>FullName <a style="color: red" href={{'/employee/list?sort=' ~ sort }}> {{ "s" }} </a></th>
+        <th>Date of birth</th>
+    </tr>
+    {% for employee in employees %}
+    <tr>
+        <td>{{ employee.fullName }}</td>
+        <td>{{ employee.date }}</td>
+        <td><a style="color: red" href={{'/view/employee/' ~ employee.id }}> {{ "detailed" }} </a>
+        <td><form action={{ '/employee/remove/' ~ employee.id }} method="post">
+                <button name="foo" value="upvote">Remove</button>
+            </form></td>
+    </tr>
+    {% endfor %}
+</table>
+<a style="color: red" href={{'/employee/add'}}>Add employee</a>
+</body>

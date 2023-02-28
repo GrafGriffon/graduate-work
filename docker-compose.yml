@@ -1,0 +1,30 @@
+version: '3'
+services:
+  php:
+    image: webdevops/php-dev:8.0
+    container_name: php
+    environment:
+      XDEBUG_CONFIG: idekey=PHPSTORM
+    volumes:
+      - ./app:/symfony
+      - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
+    depends_on:
+      - db
+  nginx:
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./app:/symfony
+    container_name: nginx
+    restart: always
+    ports:
+      - "8081:80"
+  db:
+    container_name: db
+    image: postgres:12
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: shopdb
+    ports:
+      - 15432:5432
