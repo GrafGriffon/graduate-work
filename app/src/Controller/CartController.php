@@ -35,15 +35,15 @@ class CartController extends AbstractController
      */
     public function addToCartAction(int $id, int $quantity = 1): Response
     {
-        if (!isset($_COOKIE['cart'])) setcookie('cart', 0, time() + 86400, "/");
-        else $cookie = json_decode($_COOKIE['cart']);
+        if (!isset($_COOKIE['cart'])) {
+            setcookie('cart', 0, time() + 86400, "/");
+        } else {
+            $cookie = json_decode($_COOKIE['cart']);
+        }
         for ($i = 0; $i < $quantity; $i++) {
             $cookie[] = intval($id);
         }
         setcookie('cart', json_encode($cookie), time() + 86400, "/");
-        $resData['cntItems'] = count($cookie);
-        $resData['success'] = 1;
-        echo json_encode($resData);
         return $this->redirect($this->generateUrl('view') . "?id=$id");
     }
 
