@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактирование новости{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="../../../build/app.4c45a463.css">
+    <link rel="stylesheet" href="../../../css/config.css">
+{% endblock %}
+{% block body %}
+    <script src="https://cdn.tiny.cloud/1/n0rli8pmt7q76mf3w4dc2rchqzfhili4sjzh8iiwkhvzy2tk/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '.textarea'
+        });
+    </script>
+    <div class="container">
+    <h1 class="h1 text-center">Редактирование новости</h1>
+        {{ include('news/_form.html.twig', {'button_label': 'Обновить'}) }}
+        <div class="row text-center mt-3">
+            <a href="{{ path('news_index') }}">Назад</a>
+            {{ include('news/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

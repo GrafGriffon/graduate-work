@@ -1,0 +1,39 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Order index{% endblock %}
+
+{% block body %}
+    <h1 class="h1 text-center my-3">Заказы</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>адрес</th>
+                <th>email</th>
+                <th>статус</th>
+                <th>дата</th>
+                <th>действия</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.address }}</td>
+                <td>{{ order.user.email }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.date |date('d-M-Y H:i:s') }}</td>
+                <td>
+                    <a href="{{ path('order_show', {'id': order.id}) }}">Подробнее</a>
+                    <a href="{{ path('order_edit', {'id': order.id}) }}">Редактировать</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

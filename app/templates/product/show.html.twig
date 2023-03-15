@@ -1,0 +1,45 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Товар{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h1 class="h1 text-center pt-5">Товар</h1>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ product.id }}</td>
+                </tr>
+                <tr>
+                    <th>Название</th>
+                    <td>{{ product.title }}</td>
+                </tr>
+                <tr>
+                    <th>Короткое описание</th>
+                    <td>{{ product.description }}</td>
+                </tr>
+                <tr>
+                    <th>Длинное описание</th>
+                    <td>{{ product.LongDescription | raw }}</td>
+                </tr>
+                <tr>
+                    <th>Дата</th>
+                    <td>{{ product.date ? product.date|date('Y-m-d') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Изображение</th>
+                    <td><img src="../{{ product.image }}" alt=""></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row text-center">
+        <a href="{{ path('product_index') }}">Назад</a>
+        <br>
+        <a href="{{ path('product_edit', {'id': product.id}) }}">Редактировать</a>
+        </div>
+
+{#        {{ include('product/_delete_form.html.twig') }}#}
+    </div>
+{% endblock %}

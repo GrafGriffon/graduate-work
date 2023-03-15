@@ -1,0 +1,14 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Категория{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="h1 my-3 text-center">Создание категории</h1>
+
+    {{ include('category/_form.html.twig') }}
+    <div class="row text-center">
+        <a href="{{ path('category_index') }}">Назад</a>
+    </div>
+</div>
+{% endblock %}
