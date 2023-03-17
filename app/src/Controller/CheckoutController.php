@@ -6,6 +6,7 @@ use App\Entity\Order;
 use App\Entity\OrderProduct;
 use App\Form\OrderType;
 use App\Repository\ProductRepository;
+use App\Repository\StatusRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +20,7 @@ class CheckoutController extends AbstractController
     /**
      * @Route("/checkout", name="checkout")
      */
-    public function index(Request $request, Security $security, ProductRepository $productRepository, UserRepository $userRepository)
+    public function index(Request $request, Security $security, ProductRepository $productRepository, UserRepository $userRepository, StatusRepository $statusRepository)
     {
         $order = new Order();
         $user = $security->getUser();
@@ -33,7 +34,7 @@ class CheckoutController extends AbstractController
 
 
             $order->setUser($user);
-            $order->setStatus("Заказан");
+            $order->setStatus($statusRepository->findOneBy(['sort' => 1]));
             $order->setDate(new DateTime());
 
             $entityManager->persist($order);

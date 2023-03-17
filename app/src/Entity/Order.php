@@ -27,7 +27,8 @@ class Order
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Status", inversedBy="orders")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $status;
 
@@ -68,12 +69,12 @@ class Order
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?Status
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(Status $status): self
     {
         $this->status = $status;
 

@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>адрес</th>
                 <th>email</th>
                 <th>статус</th>
@@ -19,10 +18,9 @@
         <tbody>
         {% for order in orders %}
             <tr>
-                <td>{{ order.id }}</td>
                 <td>{{ order.address }}</td>
                 <td>{{ order.user.email }}</td>
-                <td>{{ order.status }}</td>
+                <td>{{ order.status.name }}</td>
                 <td>{{ order.date |date('d-M-Y H:i:s') }}</td>
                 <td>
                     <a href="{{ path('order_show', {'id': order.id}) }}">Подробнее</a>

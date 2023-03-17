@@ -18,6 +18,8 @@ class User implements UserInterface
 {
     const ROLE_USER = 0;
     const ROLE_ADMIN = 1;
+    const ROLE_PROVIDER = 2;
+    const ROLE_MANGER = 3;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -96,9 +98,21 @@ class User implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        if ($this->roles[0] == self::ROLE_USER) $roles[0] = 'ROLE_USER';
-        if ($this->roles[0] == self::ROLE_ADMIN) $roles[0] = 'ROLE_ADMIN';
+        switch ($this->roles[0]){
+            case self::ROLE_ADMIN:
+                $roles[0] = 'ROLE_ADMIN';
+                break;
+            case self::ROLE_MANGER:
+                $roles[0] = 'ROLE_MANGER';
+                break;
+            case self::ROLE_PROVIDER:
+                $roles[0] = 'ROLE_PROVIDER';
+                break;
+            case self::ROLE_USER:
+                $roles[0] = 'ROLE_USER';
+                break;
+            default: break;
+        }
 
         return array_unique($roles);
     }
