@@ -64,38 +64,16 @@
                             <div class="col-md-4 col-sm-5 col-xs-12">
                                 <div class="cart_totals">
                                     <h2>Итого</h2>
+                                    <strong><span class="amount" style="font-size: 26px">{{ totalPrice }} BYN</span></strong>
+
                                     <br>
-                                    <table>
-                                        <tbody>
-                                        <tr class="cart-subtotal">
-                                        </tr>
-                                        <tr class="shipping">
-                                            <th>Доставка</th>
-                                            <td>
-                                                <ul id="shipping_method">
-                                                    <li>
-                                                        <input type="radio" checked />
-                                                        <label>
-                                                            Бессплатно
-                                                        </label>
-                                                    </li>
-                                                    <li></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        <tr class="order-total">
-                                            <th>К оплате</th>
-                                            <td>
-                                                <strong><span class="amount">{{ totalPrice }} BYN</span></strong>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
                                     <div class="wc-proceed-to-checkout">
+                                        {% if totalPrice > 0 %}
                                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                             <a href="{{ path('checkout') }}">Перейти к заказу</a>
                                         {% else %}
                                             <a href="{{ path('app_register') }}">Зарегестрироваться</a>
+                                        {% endif %}
                                         {% endif %}
                                     </div>
                                 </div>

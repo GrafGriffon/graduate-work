@@ -7,6 +7,7 @@ use App\Form\OrderType;
 use App\Repository\OrderRepository;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\TextType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,26 +20,28 @@ use Symfony\Component\Security\Core\Security;
 class OrderController extends AbstractController
 {
     /**
-     * @Route("/", name="order_index", methods={"GET"})
+     * @Route("", name="order_index", methods={"GET"})
      */
-    public function index(OrderRepository $orderRepository): Response
+    public function index(Request $request, OrderRepository $orderRepository): Response
     {
+        $query = $request->query->all();
+        $status = key_exists('filter', $query) ? ($query['filter']=='true' ? 2 : 3) : 1;
         return $this->render('order/index.html.twig', [
-            'orders' => $orderRepository->getOrdersListSortedByDate(),
+            'orders' => $orderRepository->getOrdersListSortedByDate(key_exists('filter', $query) ? $query['filter'] : null),
+            'status' => $status
         ]);
     }
 
     /**
      * @Route("/new", name="order_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Security $security): Response
+    public function new(Request $request, Security $security, EntityManagerInterface $entityManager): Response
     {
         $order = new Order();
         $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($order);
             $entityManager->flush();
 
@@ -95,10 +98,9 @@ class OrderController extends AbstractController
     /**
      * @Route("/{id}", name="order_delete", methods={"POST"})
      */
-    public function delete(Request $request, Order $order): Response
+    public function delete(Request $request, Order $order, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $order->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($order);
             $entityManager->flush();
         }

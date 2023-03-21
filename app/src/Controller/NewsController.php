@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\News;
 use App\Form\NewsType;
+use App\Repository\NewsletterRepository;
 use App\Repository\NewsRepository;
+use App\Services\CustomMailerService;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,14 +44,13 @@ class NewsController extends AbstractController
     /**
      * @Route("/admin/new", name="news_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, NewsletterRepository $repository, CustomMailerService $service): Response
     {
         $news = new News();
         $form = $this->createForm(NewsType::class, $news);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $image = $form->get('image')->getData();
             if ($image) {
                 $imageName = md5(uniqid()) . '.' . $image->guessExtension();
@@ -60,6 +62,11 @@ class NewsController extends AbstractController
                 $news->setImage("img/news-image/" . $imageName);
             } else {
                 $news->setImage("img/default/default.jpg");
+            }
+            foreach ($repository->findBy(['isAccepted' => true]) as $newsletter){
+                $service->sendMail($newsletter->mail, 'User', 'Новостная рассылка от STROY-BEL',
+                    $news->getBody()
+                );
             }
             $news->setDate(new DateTime());
             $entityManager->persist($news);
@@ -97,13 +104,12 @@ class NewsController extends AbstractController
     /**
      * @Route("/admin/{id}/edit", name="news_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, News $news): Response
+    public function edit(Request $request, News $news, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(NewsType::class, $news);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
 
             $image = $form->get('image')->getData();
             if ($image) {
@@ -128,10 +134,9 @@ class NewsController extends AbstractController
     /**
      * @Route("/admin/{id}", name="news_delete", methods={"POST"})
      */
-    public function delete(Request $request, News $news): Response
+    public function delete(Request $request, News $news, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $news->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($news);
             $entityManager->flush();
         }

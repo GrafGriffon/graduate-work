@@ -62,6 +62,11 @@ class Product
     private $isActive;
 
     /**
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    public $count;
+
+    /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="product")
      */
     private $comments;
@@ -72,6 +77,7 @@ class Product
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->count = 0;
     }
 
     /**

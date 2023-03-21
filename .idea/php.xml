@@ -112,6 +112,16 @@
       <path value="$PROJECT_DIR$/app/vendor/symfony/notifier" />
       <path value="$PROJECT_DIR$/app/vendor/symfony/debug-bundle" />
       <path value="$PROJECT_DIR$/app/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/app/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/app/vendor/ezyang/htmlpurifier" />
+      <path value="$PROJECT_DIR$/app/vendor/phpoffice/phpspreadsheet" />
+      <path value="$PROJECT_DIR$/app/vendor/markbaker/matrix" />
+      <path value="$PROJECT_DIR$/app/vendor/markbaker/complex" />
+      <path value="$PROJECT_DIR$/app/vendor/maennchen/zipstream-php" />
+      <path value="$PROJECT_DIR$/app/vendor/myclabs/php-enum" />
+      <path value="$PROJECT_DIR$/app/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/app/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/app/vendor/psr/http-factory" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">

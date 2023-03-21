@@ -2,57 +2,74 @@
 
 namespace App\Controller;
 
+use App\Entity\Newsletter;
 use App\Repository\CategoryRepository;
+use App\Repository\NewsletterRepository;
 use App\Repository\NewsRepository;
 use App\Repository\ProductRepository;
+use App\Services\CustomMailerService;
 use Doctrine\DBAL\SQL\Parser\Exception;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPMailer\PHPMailer\PHPMailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/mail")
+ */
 class MailController extends AbstractController
 {
     /**
-     * @Route("/mail", name="mail", methods={"POST"})
+     * @Route("", name="mail", methods={"POST"})
      * @param ProductRepository $productRepository
      * @param NewsRepository $newsRepository
      * @param CategoryRepository $categoryRepository
      * @return Response
      * @throws \PHPMailer\PHPMailer\Exception
      */
-    public function index(ProductRepository $productRepository, NewsRepository $newsRepository, CategoryRepository $categoryRepository): Response
+    public function index(Request $request, CustomMailerService $service, EntityManagerInterface $manager, NewsletterRepository $repository): Response
     {
-            $mail = new PHPMailer;
-            $mail->isSMTP();
+        $mail = $request->request->get('EMAIL');
+        if (!$repository->findOneBy(['mail'=>$mail])){
+            $url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            $newsletter = new Newsletter($mail);
+            $manager->persist($newsletter);
+            $manager->flush();
+            $hash=$newsletter->getHash();
+            $urlAccept = ($url . '/accept/' . $hash);
+            $urlCancel = ($url . '/cancel/' . $hash);
+            $service->sendMail($mail, 'Dear customer', 'Подпись на рассылку от STROY-BEL',
+                "<h1>Оповоещение о рассылке</h1><p>Уважаемый клиент, желаете ли подписаться на нашу рассылку: </p><a href=\"$urlAccept\">Да, хочу получать рассылку</a><br><a href=\"$urlCancel\">Нет, не хочу получать рассылку</a>");
+        }
+        return $this->redirect('/');
+    }
 
-            $mail->SMTPDebug = 1;
+    /**
+     * @Route("/accept/{hash}", name="mail-accept", methods={"GET"})
+     */
+    public function accept(string $hash, NewsletterRepository $repository, EntityManagerInterface $manager): Response
+    {
+        if ($newsletter = $repository->findOneBy(['hash' => $hash])){
+            $newsletter->setIsAccepted(true);
+            $manager->flush();
+        }
+        return $this->redirect('/');
+    }
 
-            $mail->Host = 'ssl://smtp.mail.ru';
-
-            $mail->SMTPAuth = true;
-            $mail->Username = 'illiaa552@mail.ru'; // логин от вашей почты
-            $mail->Password = 'UjKkwDFLgmfVCvfSpssM'; // пароль от почтового ящика
-            $mail->SMTPSecure = 'SSL';
-            $mail->Port = '465';
-
-            $mail->CharSet = 'UTF-8';
-            $mail->From = 'illiaa552@mail.ru';  // адрес почты, с которой идет отправка
-            $mail->FromName = 'Illia'; // имя отправителя
-            $mail->addAddress('illiaa553@mail.ru', 'Illia');
-
-            $mail->isHTML(true);
-
-            $mail->Subject = 'Отправка письма с мыла Тайтл';
-            $mail->Body = "Имя: 1";
-//        $mail->addAttachment('path');
-
-//проверка на отправку. Можно сделать вывод текста, можно отправить юзера на какую-то страницу
-            $mail->SMTPDebug  = 0;
-            $mail->send();
+    /**
+     * @Route("/cancel/{hash}", name="mail-cancel", methods={"GET"})
+     */
+    public function cancel(string $hash, NewsletterRepository $repository, EntityManagerInterface $manager): Response
+    {
+        if ($newsletter = $repository->findOneBy(['hash' => $hash])){
+            $manager->remove($newsletter);
+            $manager->flush();
+        }
         return $this->redirect('/');
     }
 }

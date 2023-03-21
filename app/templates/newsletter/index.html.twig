@@ -1,0 +1,33 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Category index{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-center my-3">Рассылки</h1>
+
+        <a class="btn btn-lg btn-primary mx-auto my-5 d-block w-25" href="{{ path('newsletter_new') }}">Создать новую</a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Почта</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for newsletter in newsletters %}
+                <tr>
+                    <td style="width: 90%">{{ newsletter.mail }}</td>
+                    <td>
+                        <a href="{{ path('mail-cancel', {'hash': newsletter.hash}) }}" class="text-danger">Отменить</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Нет активных рассылок</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

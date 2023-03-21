@@ -55,16 +55,11 @@
                             <div class="contact-title">
                                 <h2 class="contact__title">Обратная связь</h2>
                             </div>
-                            <form id="contact-form" action="{{ path('sendcontactmail') }}" method="post">
+                            <form action="/feedback" method="post" id="сontact-form" class="validate">
                                 <div class="single-contact-form">
                                     <div class="contact-box name">
                                         <input type="text" name="name" placeholder="Имя*" required>
-                                        <input type="email" name="email" placeholder="Почта*" required>
-                                    </div>
-                                </div>
-                                <div class="single-contact-form">
-                                    <div class="contact-box subject">
-                                        <input type="text" name="subject" placeholder="Тема*" required>
+                                        <input type="email" name="mail" placeholder="Почта*" required>
                                     </div>
                                 </div>
                                 <div class="single-contact-form">

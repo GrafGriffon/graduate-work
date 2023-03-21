@@ -73,6 +73,10 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Email не найден.');
         }
+        if (!$user->isActivated()) {
+            // fail authentication with a custom error
+            throw new CustomUserMessageAuthenticationException('Аккаунт не активирован');
+        }
 
         return $user;
     }

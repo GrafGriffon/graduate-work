@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\AddressType;
 use App\Repository\AddressRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,7 @@ class AddressController extends AbstractController
     /**
      * @Route("/new", name="address_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserRepository $userRepository): Response
+    public function new(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $address = new Address();
         $form = $this->createForm(AddressType::class, $address);
@@ -42,8 +43,6 @@ class AddressController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $user = new User();
             $user = $userRepository->findOneBy(['email' => $this->getUser()->getUsername()]);
             $address->setUser($user);
             $entityManager->persist($address);
@@ -93,10 +92,9 @@ class AddressController extends AbstractController
     /**
      * @Route("/{id}", name="address_delete", methods={"POST"})
      */
-    public function delete(Request $request, Address $address): Response
+    public function delete(Request $request, Address $address, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $address->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($address);
             $entityManager->flush();
         }

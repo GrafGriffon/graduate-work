@@ -22,9 +22,19 @@ class OrderRepository extends ServiceEntityRepository
     /**
      * @return int|mixed|string
      */
-    public function getOrdersListSortedByDate()
+    public function getOrdersListSortedByDate(?string $filter = null)
     {
-        return $this->createQueryBuilder('o')
+        $query = $this->createQueryBuilder('o');
+        if ($filter != null){
+            if ($filter == 'true'){
+                $query->andWhere('o.status < :status');
+                $query->setParameter('status', 4);
+            } elseif ($filter == 'false') {
+                $query->andWhere('o.status = :status');
+                $query->setParameter('status', 4);
+            }
+        }
+        return $query
             ->orderBy('o.date', 'DESC')
             ->getQuery()
             ->getResult();

@@ -7,39 +7,37 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=StatusRepository::class)
+ * @ORM\Entity(repositoryClass=FeedbackRepository::class)
  */
-class Status
+class Feedback
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    public $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="status")
+     * @ORM\Column(type="string", length=255)
      */
-    private $orders;
+    public $mail;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    public $sort;
+    public $messege;
 
-    public function __construct()
+    public function __construct(string $name, string $mail, string $message)
     {
-        $this->orders = new ArrayCollection();
-    }
-
-    public function __toString() {
-        return $this->name;
+        $this->name = $name;
+        $this->mail = $mail;
+        $this->messege = $message;
     }
 
     public function getId(): ?int

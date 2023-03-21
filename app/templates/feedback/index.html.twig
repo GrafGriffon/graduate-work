@@ -1,0 +1,36 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Category index{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-center my-3">Обратная связь</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Почта</th>
+                <th>Запрос</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for feedback in feedbacks %}
+                <tr>
+                    <td>{{ feedback.name }}</td>
+                    <td>{{ feedback.mail }}</td>
+                    <td style="word-break: break-all; width: 50%">{{ feedback.message }}</td>
+                    <td>
+                        <a href="{{ path('feedback-delete', {'id': feedback.id}) }}" class="text-danger">Удалить</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Нет запросов обратной связи</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

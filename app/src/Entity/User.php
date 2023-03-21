@@ -18,8 +18,6 @@ class User implements UserInterface
 {
     const ROLE_USER = 0;
     const ROLE_ADMIN = 1;
-    const ROLE_PROVIDER = 2;
-    const ROLE_MANGER = 3;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -44,6 +42,17 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private bool $isActivated;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private string $hash;
+
+    /**
      * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user")
      */
     private $orders;
@@ -63,6 +72,7 @@ class User implements UserInterface
         $this->orders = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->addresses = new ArrayCollection();
+        $this->isActivated = false;
     }
 
     public function getId(): ?int
@@ -102,12 +112,6 @@ class User implements UserInterface
             case self::ROLE_ADMIN:
                 $roles[0] = 'ROLE_ADMIN';
                 break;
-            case self::ROLE_MANGER:
-                $roles[0] = 'ROLE_MANGER';
-                break;
-            case self::ROLE_PROVIDER:
-                $roles[0] = 'ROLE_PROVIDER';
-                break;
             case self::ROLE_USER:
                 $roles[0] = 'ROLE_USER';
                 break;
@@ -120,6 +124,13 @@ class User implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function setHash(string $hash): self
+    {
+        $this->hash = $hash;
 
         return $this;
     }
@@ -246,6 +257,17 @@ class User implements UserInterface
             }
         }
 
+        return $this;
+    }
+
+    public function isActivated(): bool
+    {
+        return $this->isActivated;
+    }
+
+    public function setIsActivated(bool $isActivated): self
+    {
+        $this->isActivated = $isActivated;
         return $this;
     }
 }

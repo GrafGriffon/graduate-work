@@ -9,6 +9,7 @@ use App\Repository\ProductRepository;
 use App\Repository\StatusRepository;
 use App\Repository\UserRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,7 @@ class CheckoutController extends AbstractController
     /**
      * @Route("/checkout", name="checkout")
      */
-    public function index(Request $request, Security $security, ProductRepository $productRepository, UserRepository $userRepository, StatusRepository $statusRepository)
+    public function index(Request $request, Security $security, ProductRepository $productRepository, UserRepository $userRepository, StatusRepository $statusRepository, EntityManagerInterface $entityManager)
     {
         $order = new Order();
         $user = $security->getUser();
@@ -29,8 +30,6 @@ class CheckoutController extends AbstractController
         $productListInCart = [];
         $coast = 0;
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $entityManager = $this->getDoctrine()->getManager();
 
 
             $order->setUser($user);

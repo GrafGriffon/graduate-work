@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,14 +30,13 @@ class ProductController extends AbstractController
     /**
      * @Route("/new", name="product_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $image = $form->get('image')->getData();
             if ($image) {
                 $imageName = md5(uniqid()) . '.' . $image->guessExtension();
@@ -73,7 +73,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/{id}/edit", name="product_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Product $product): Response
+    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
 
         $form = $this->createForm(ProductType::class, $product);
@@ -81,7 +81,6 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $entityManager = $this->getDoctrine()->getManager();
             $image = $form->get('image')->getData();
             if ($image) {
                 $imageName = md5(uniqid()) . '.' . $image->guessExtension();
@@ -105,10 +104,9 @@ class ProductController extends AbstractController
     /**
      * @Route("/{id}", name="product_delete", methods={"POST"})
      */
-    public function delete(Request $request, Product $product): Response
+    public function delete(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($product);
             $entityManager->flush();
         }

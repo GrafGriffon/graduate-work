@@ -43,7 +43,7 @@ class ProductRepository extends ServiceEntityRepository
             ->andWhere('c.isActive = true')
             ->andWhere('p.isActive = true')
             ->orderBy('p.date', 'DESC')
-            ->setMaxResults(12)
+            ->setMaxResults(4)
             ->getQuery()
             ->getResult();
     }

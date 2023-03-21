@@ -1,0 +1,14 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Рассылка{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="h1 my-3 text-center">Создание получателя рассылки</h1>
+
+    {{ include('newsletter/_form.html.twig') }}
+    <div class="row text-center">
+        <a href="{{ path('newsletter_index') }}">Назад</a>
+    </div>
+</div>
+{% endblock %}

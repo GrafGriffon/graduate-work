@@ -1,4 +1,4 @@
-/*!
+/*/
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
  * Copyright 2011-2019 Twitter, Inc.
@@ -8306,6 +8306,7 @@ h1, h2, h3, h4, h5,
     outline: none; }
   .btn.btn-primary {
     background: #8d448b !important;
+    /*background: # !important;*/
     border: 1px solid #8d448b !important;
     color: #fff !important; }
     .btn.btn-primary:hover {
