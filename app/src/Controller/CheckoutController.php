@@ -8,6 +8,7 @@ use App\Form\OrderType;
 use App\Repository\ProductRepository;
 use App\Repository\StatusRepository;
 use App\Repository\UserRepository;
+use App\Services\CustomMailerService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,7 @@ class CheckoutController extends AbstractController
     /**
      * @Route("/checkout", name="checkout")
      */
-    public function index(Request $request, Security $security, ProductRepository $productRepository, UserRepository $userRepository, StatusRepository $statusRepository, EntityManagerInterface $entityManager)
+    public function index(Request $request, Security $security, ProductRepository $productRepository, UserRepository $userRepository, StatusRepository $statusRepository, EntityManagerInterface $entityManager, CustomMailerService $service)
     {
         $order = new Order();
         $user = $security->getUser();
@@ -30,8 +31,6 @@ class CheckoutController extends AbstractController
         $productListInCart = [];
         $coast = 0;
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             $order->setUser($user);
             $order->setStatus($statusRepository->findOneBy(['sort' => 1]));
             $order->setDate(new DateTime());
@@ -45,7 +44,12 @@ class CheckoutController extends AbstractController
                 $cookie = json_decode($_COOKIE['cart']);
             }
 
+            if(!isset($cookie)){
+                return $this->redirectToRoute('main');
+            }
             $orderedProducts = array_count_values($cookie);
+            $numberOrder = $order->getId();
+            $mailDescription = "<h2>Заказ №$numberOrder создан.</h2>";
             foreach ($orderedProducts as $productId => $quantity) {
                 if ($productId != 0) {
                     $orderedProduct = new OrderProduct();
@@ -54,8 +58,14 @@ class CheckoutController extends AbstractController
                     $orderedProduct->setQuantity($quantity);
                     $entityManager->persist($orderedProduct);
                     $entityManager->flush();
+                    $quantity = $orderedProduct->getQuantity();
+                    $price = $orderedProduct->getProduct()->getPrice();
+                    $title = $orderedProduct->getProduct()->getTitle();
+                    $mailDescription.="<p>$title х$quantity $price р./шт.</p>";
                 }
             }
+            $service->sendMail($order->getUser()->getEmail(), 'Dear customer', 'Утвержден комментарий от STROY-BEL',
+                "$mailDescription");
             setcookie('cart', "", time() + 86400, "/");
             return $this->redirectToRoute('checkout_success');
         }

@@ -14,25 +14,19 @@ class AddressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('city',
+                null,
+                ['label' => "Город"]
+            )
             ->add(
                 'address',
                 null,
                 ['label' => "Адрес"]
             )
-            ->add('zip')
-            ->add(
-                'phone',
-                TelType::class,
-                ['label' => "Телефон"]
-            )
-            ->add('city',
+            ->add('zip',
                 null,
-                ['label' => "Город"]
-            )
-            ->add('country',
-                null,
-                ['label' => "Страна"]
-            );
+                ['label' => "Почтовый индекс"])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

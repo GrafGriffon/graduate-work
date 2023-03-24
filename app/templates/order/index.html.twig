@@ -4,33 +4,55 @@
 
 {% block body %}
     <h1 class="h1 text-center my-3">Заказы</h1>
-</div>
+    <div style="margin-left: 10pt">
+        <form action="/filter" method="post">
+            <label for="fname">начало:</label>
+            <input type="date" id="start" name="start"
+                   value="2022-01-01"
+                   max="{{ "now"|date("Y-m-d") }}">
+            <label for="lname">конец:</label>
+            <input type="date" id="end" name="end"
+                   value="{{ "now"|date("Y-m-d") }}"
+                   max="{{ "now"|date("Y-m-d") }}">
+            <label for="fstatus">статус:</label>
+            <select name="status" style="height:28px;">
+                {% if isset_status is null %}
+                    <option selected>Без фильтра</option>
+                {% else %}
+                    <option>Без фильтра</option>
+                {% endif %}
+                {% for status in statuses %}
+                    {% if status.id == isset_status %}
+                        <option selected>{{ status }}</option>
+                    {% else %}
+                        <option>{{ status }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <input type="submit" value="Фильтровать" name="filter">
+            <input type="submit" value="Скачать excel" name="excel">
+        </form>
+    </div>
     <table class="table">
         <thead>
-            <tr>
-                <th>адрес</th>
-                <th>email</th>
-                {% if status == 1 %}
-                    <th><a href="/order?filter=true" style="color: #212529">статус</a></th>
-                {% endif %}
-                {% if status == 2 %}
-                    <th><a href="/order?filter=false" style="color: #212529">статус (активные)</a></th>
-                {% endif %}
-                {% if status == 3 %}
-                    <th><a href="/order" style="color: #212529">статус (выполненные)</a></th>
-                {% endif %}
-                <th>дата</th>
-                <th>действия</th>
-            </tr>
+        <tr>
+            <th style="text-align: center">номер</th>
+            <th style="text-align: center">адрес</th>
+            <th style="text-align: center">email</th>
+            <th style="text-align: center">статус</th>
+            <th style="text-align: center">дата</th>
+            <th style="text-align: center">действия</th>
+        </tr>
         </thead>
         <tbody>
         {% for order in orders %}
             <tr>
-                <td>{{ order.address }}</td>
-                <td>{{ order.user.email }}</td>
-                <td>{{ order.status.name }}</td>
-                <td>{{ order.date |date('d-M-Y H:i:s') }}</td>
-                <td>
+                <td style="text-align: center">{{ order.id }}</td>
+                <td style="text-align: center">{{ order.address }}</td>
+                <td style="text-align: center">{{ order.user.email }}</td>
+                <td style="text-align: center">{{ order.status.name }}</td>
+                <td style="text-align: center">{{ order.date |date('d-M-Y H:i:s') }}</td>
+                <td style="text-align: center">
                     <a href="{{ path('order_show', {'id': order.id}) }}">Подробнее</a>
                     {% if order.status.sort < 4 %}
                         <a href="{{ path('order_edit', {'id': order.id}) }}">Редактировать</a>

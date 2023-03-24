@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Order;
 use App\Form\OrderType;
 use App\Repository\OrderRepository;
+use App\Repository\StatusRepository;
+use App\Services\CustomMailerService;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,37 +24,55 @@ class OrderController extends AbstractController
     /**
      * @Route("", name="order_index", methods={"GET"})
      */
-    public function index(Request $request, OrderRepository $orderRepository): Response
+    public function index(Request $request, OrderRepository $orderRepository, StatusRepository $statusRepository): Response
     {
         $query = $request->query->all();
-        $status = key_exists('filter', $query) ? ($query['filter']=='true' ? 2 : 3) : 1;
-        return $this->render('order/index.html.twig', [
-            'orders' => $orderRepository->getOrdersListSortedByDate(key_exists('filter', $query) ? $query['filter'] : null),
-            'status' => $status
-        ]);
-    }
-
-    /**
-     * @Route("/new", name="order_new", methods={"GET","POST"})
-     */
-    public function new(Request $request, Security $security, EntityManagerInterface $entityManager): Response
-    {
-        $order = new Order();
-        $form = $this->createForm(OrderType::class, $order);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($order);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('order_index');
+        $status = key_exists('status', $query) ? $query['status'] : null;
+        if (!in_array($status, ['1', '2', '3', '4'])){
+            $status = null;
         }
-
-        return $this->render('order/new.html.twig', [
-            'order' => $order,
-            'form' => $form->createView(),
+        return $this->render('order/index.html.twig', [
+            'orders' => $orderRepository->getOrdersListSortedByDate(
+                $status,
+                key_exists('start', $query) ? $query['start'] : null,
+                key_exists('end', $query) ? $query['end'] : null
+            ),
+            'isset_status' => $status,
+            'statuses' => $statusRepository->findAll()
         ]);
     }
+
+//    /**
+//     * @Route("/new", name="order_new", methods={"GET","POST"})
+//     */
+//    public function new(Request $request, Security $security, EntityManagerInterface $entityManager, CustomMailerService $service): Response
+//    {
+//        $order = new Order();
+//        $form = $this->createForm(OrderType::class, $order);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $entityManager->persist($order);
+//            $entityManager->flush();
+//            $numberOrder = $order->getId();
+//            $mailDescription = "<h2>Заказ №$numberOrder создан.</h2>";
+//            foreach ($order->getOrderProducts() as $orderProduct){
+//                $quantity = $orderProduct->getQuantity();
+//                $price = $orderProduct->getProduct()->getPrice();
+//                $title = $orderProduct->getProduct()->getTitle();
+//                $mailDescription.="<p>$title х$quantity $price р./шт.</p>";
+//            }
+//            $service->sendMail($order->getUser()->getEmail(), 'Dear customer', 'Утвержден комментарий от STROY-BEL',
+//                "$mailDescription");
+//
+//            return $this->redirectToRoute('order_index');
+//        }
+//
+//        return $this->render('order/new.html.twig', [
+//            'order' => $order,
+//            'form' => $form->createView(),
+//        ]);
+//    }
 
     /**
      * @Route("/{id}", name="order_show", methods={"GET"})
@@ -70,7 +90,7 @@ class OrderController extends AbstractController
     /**
      * @Route("/{id}/edit", name="order_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Order $order): Response
+    public function edit(Request $request, Order $order, CustomMailerService $service): Response
     {
         $form = $this->createForm(OrderType::class, $order);
 
@@ -84,6 +104,10 @@ class OrderController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $order->getStatus()->getName();
+            $order->getid();
+            $service->sendMail($order->getUser()->getEmail(), 'Dear customer', 'Изменение статуса заказа STROY-BEL',
+                "");
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('order_index');

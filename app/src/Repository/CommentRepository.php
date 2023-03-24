@@ -23,6 +23,7 @@ class CommentRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.product = ' . $value)
+            ->andWhere('c.isAccepted = true')
             ->orderBy('c.date', 'DESC')
             ->getQuery()
             ->getResult();
@@ -33,6 +34,7 @@ class CommentRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->select("avg(c.rating) as rating")
             ->andWhere('c.product = ' . $value)
+            ->andWhere('c.isAccepted = true')
             ->getQuery()
             ->getResult();
     }

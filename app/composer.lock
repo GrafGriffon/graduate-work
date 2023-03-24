@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f78f4edd4d0be00f450781545bf4222d",
+    "content-hash": "75a2ad313d8ba5c1b3aff75aa659a4d1",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1643,6 +1643,132 @@
             "time": "2015-05-29T06:29:14+00:00"
         },
         {
+            "name": "giggsey/libphonenumber-for-php",
+            "version": "8.13.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/libphonenumber-for-php.git",
+                "reference": "281b12d9091fcd04e9379a67f723179c44b13ec8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/281b12d9091fcd04e9379a67f723179c44b13ec8",
+                "reference": "281b12d9091fcd04e9379a67f723179c44b13ec8",
+                "shasum": ""
+            },
+            "require": {
+                "giggsey/locale": "^1.7|^2.0",
+                "php": ">=5.3.2",
+                "symfony/polyfill-mbstring": "^1.17"
+            },
+            "require-dev": {
+                "pear/pear-core-minimal": "^1.9",
+                "pear/pear_exception": "^1.0",
+                "pear/versioncontrol_git": "^0.5",
+                "phing/phing": "^2.7",
+                "php-coveralls/php-coveralls": "^1.0|^2.0",
+                "symfony/console": "^2.8|^3.0|^v4.4|^v5.2",
+                "symfony/phpunit-bridge": "^4.2 || ^5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "libphonenumber\\": "src/"
+                },
+                "exclude-from-classmap": [
+                    "/src/data/",
+                    "/src/carrier/data/",
+                    "/src/geocoding/data/",
+                    "/src/timezone/data/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "https://giggsey.com/"
+                }
+            ],
+            "description": "PHP Port of Google's libphonenumber",
+            "homepage": "https://github.com/giggsey/libphonenumber-for-php",
+            "keywords": [
+                "geocoding",
+                "geolocation",
+                "libphonenumber",
+                "mobile",
+                "phonenumber",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
+                "source": "https://github.com/giggsey/libphonenumber-for-php"
+            },
+            "time": "2023-03-03T14:16:43+00:00"
+        },
+        {
+            "name": "giggsey/locale",
+            "version": "2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/Locale.git",
+                "reference": "5f035523740be40d40ac768a123c9bcc1ae12f56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/Locale/zipball/5f035523740be40d40ac768a123c9bcc1ae12f56",
+                "reference": "5f035523740be40d40ac768a123c9bcc1ae12f56",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "ext-json": "*",
+                "pear/pear-core-minimal": "^1.9",
+                "pear/pear_exception": "^1.0",
+                "pear/versioncontrol_git": "^0.5",
+                "phing/phing": "^2.7",
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpunit/phpunit": "^8.5|^9.5",
+                "symfony/console": "^5.0|^6.0",
+                "symfony/filesystem": "^5.0|^6.0",
+                "symfony/finder": "^5.0|^6.0",
+                "symfony/process": "^5.0|^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Giggsey\\Locale\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "https://giggsey.com/"
+                }
+            ],
+            "description": "Locale functions required by libphonenumber-for-php",
+            "support": {
+                "issues": "https://github.com/giggsey/Locale/issues",
+                "source": "https://github.com/giggsey/Locale/tree/2.3"
+            },
+            "time": "2022-10-19T20:03:30+00:00"
+        },
+        {
             "name": "knplabs/knp-components",
             "version": "v3.6.0",
             "source": {
@@ -2536,6 +2662,80 @@
                 "source": "https://github.com/namshi/jose/tree/master"
             },
             "time": "2016-12-05T07:27:31+00:00"
+        },
+        {
+            "name": "odolbeau/phone-number-bundle",
+            "version": "v3.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/odolbeau/phone-number-bundle.git",
+                "reference": "a4c084d9709a416511234b49d6803d76b64dbc02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/a4c084d9709a416511234b49d6803d76b64dbc02",
+                "reference": "a4c084d9709a416511234b49d6803d76b64dbc02",
+                "shasum": ""
+            },
+            "require": {
+                "giggsey/libphonenumber-for-php": "^8.0",
+                "php": ">=7.4",
+                "symfony/framework-bundle": "^4.4|^5.3|^6.0",
+                "symfony/intl": "^4.4|^5.3|^6.0"
+            },
+            "conflict": {
+                "symfony/serializer": "6.0.0"
+            },
+            "replace": {
+                "misd/phone-number-bundle": "self.version"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "^1.12|^2.0",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.5",
+                "symfony/form": "^4.4|^5.3|^6.0",
+                "symfony/property-access": "^4.4|^5.3|^6.0",
+                "symfony/serializer": "^4.4|^5.3|^6.0.1",
+                "symfony/twig-bundle": "^4.4|^5.3|^6.0",
+                "symfony/validator": "^4.4|^5.3|^6.0"
+            },
+            "suggest": {
+                "doctrine/doctrine-bundle": "Add a DBAL mapping type",
+                "symfony/form": "Add a data transformer",
+                "symfony/property-access": "Choose a path in the validation constraint",
+                "symfony/serializer": "Serialize/deserialize phone numbers using Symfony library",
+                "symfony/twig-bundle": "Format phone numbers in Twig templates",
+                "symfony/validator": "Add a validation constraint"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.6.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Misd\\PhoneNumberBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Integrates libphonenumber into your Symfony application",
+            "homepage": "https://github.com/odolbeau/phone-number-bundle",
+            "keywords": [
+                "bundle",
+                "libphonenumber",
+                "phone-number",
+                "phonenumber",
+                "telephone number"
+            ],
+            "support": {
+                "issues": "https://github.com/odolbeau/phone-number-bundle/issues",
+                "source": "https://github.com/odolbeau/phone-number-bundle/tree/v3.9.1"
+            },
+            "time": "2023-01-16T11:06:41+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -5022,6 +5222,94 @@
                 }
             ],
             "time": "2023-02-28T13:19:09+00:00"
+        },
+        {
+            "name": "symfony/intl",
+            "version": "v5.4.21",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/intl.git",
+                "reference": "32c2d958b88f5c7f0b080774d7d15d4c87769bc8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/intl/zipball/32c2d958b88f5c7f0b080774d7d15d4c87769bc8",
+                "reference": "32c2d958b88f5c7f0b080774d7d15d4c87769bc8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1|^3",
+                "symfony/polyfill-php80": "^1.16"
+            },
+            "require-dev": {
+                "symfony/filesystem": "^4.4|^5.0|^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "Resources/functions.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Component\\Intl\\": ""
+                },
+                "classmap": [
+                    "Resources/stubs"
+                ],
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bernhard Schussek",
+                    "email": "bschussek@gmail.com"
+                },
+                {
+                    "name": "Eriksen Costa",
+                    "email": "eriksen.costa@infranology.com.br"
+                },
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides a PHP replacement layer for the C intl extension that includes additional data from the ICU library",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "i18n",
+                "icu",
+                "internationalization",
+                "intl",
+                "l10n",
+                "localization"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/intl/tree/v5.4.21"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-02-17T21:35:35+00:00"
         },
         {
             "name": "symfony/mailer",

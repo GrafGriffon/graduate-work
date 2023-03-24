@@ -35,7 +35,7 @@ class AddressController extends AbstractController
     public function new(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $address = new Address();
-        $form = $this->createForm(AddressType::class, $address);
+        $form = $this->createForm(AddressType::class, $address, ['allow_extra_fields' => true]);
         $form->add('referer', HiddenType::class, [
             'data' => $request->headers->get('referer'),
             "mapped" => false
@@ -43,6 +43,7 @@ class AddressController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $address->setPhone($request->request->get('address')['phone']);
             $user = $userRepository->findOneBy(['email' => $this->getUser()->getUsername()]);
             $address->setUser($user);
             $entityManager->persist($address);

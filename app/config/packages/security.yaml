@@ -36,9 +36,9 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/product, roles: [ROLE_ADMIN, ROLE_MANGER] }
-         - { path: ^/category, roles: [ROLE_ADMIN, ROLE_MANGER] }
+         - { path: ^/product, roles: [ROLE_ADMIN] }
+         - { path: ^/category, roles: [ROLE_ADMIN] }
          - { path: ^/user, roles: ROLE_ADMIN }
          - { path: ^/backend, roles: ROLE_ADMIN }
-         - { path: ^/customer, roles: [ROLE_USER, ROLE_ADMIN, ROLE_PROVIDER, ROLE_MANGER] }
+         - { path: ^/customer, roles: [ROLE_USER, ROLE_ADMIN] }
         # - { path: ^/profile, roles: ROLE_USER }

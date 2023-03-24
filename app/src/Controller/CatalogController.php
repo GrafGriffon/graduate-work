@@ -31,10 +31,6 @@ class CatalogController extends AbstractController
         }
         $page = 1;
 
-        foreach ($productData as $product) {
-            $productsRating[] = $commentRepository->getRating($product->getId())[0]['rating'] ? $commentRepository->getRating($product->getId())[0]['rating'] : 0;
-        }
-
         if ($request->query->get('p') !== null) {
             $page = $request->query->get('p');
         }
@@ -44,6 +40,7 @@ class CatalogController extends AbstractController
             'products' => $productData,
             'page' => $page,
             'categories' => $categoryRepository->findCategoriesSortedByTitle(),
+            'category' => $request->query->get('c') ? $categoryRepository->find($request->query->get('c'))->getTitle() : null
         ]);
     }
 

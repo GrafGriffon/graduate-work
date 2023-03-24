@@ -7,11 +7,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 class CustomMailerService
 {
     private const HOST = 'ssl://smtp.mail.ru';
-    private const MY_MAIL = 'illiaa552@mail.ru';
-    private const PASSWORD = 'UjKkwDFLgmfVCvfSpssM';
-    private const PROTOCOL = 'SSL';
-    private const PORT = '465';
-    private const MY_FULL_NAME = 'Illia Kurbatski';
 
     /**
      * @throws \PHPMailer\PHPMailer\Exception
@@ -28,16 +23,16 @@ class CustomMailerService
         $mail->isSMTP();
 
         $mail->SMTPDebug = 0;
-        $mail->Host = self::HOST;
+        $mail->Host = $_ENV["MAIL_HOST"];
         $mail->SMTPAuth = true;
-        $mail->Username = self::MY_MAIL;
-        $mail->Password = self::PASSWORD; // пароль от почтового ящика
-        $mail->SMTPSecure = self::PROTOCOL;
-        $mail->Port = self::PORT;
+        $mail->Username = $_ENV["MAIL_POST"];
+        $mail->Password = $_ENV["MAIL_PASSWORD"]; // пароль от почтового ящика
+        $mail->SMTPSecure = $_ENV["MAIL_PROTOCOL"];
+        $mail->Port = $_ENV["MAIL_PORT"];
 
         $mail->CharSet = 'UTF-8';
-        $mail->From = self::MY_MAIL;  // адрес почты, с которой идет отправка
-        $mail->FromName = self::MY_FULL_NAME; // имя отправителя
+        $mail->From = $_ENV["MAIL_POST"];  // адрес почты, с которой идет отправка
+        $mail->FromName = $_ENV["MAIL_FULL_NAME"]; // имя отправителя
         $mail->addAddress($to, $recipientName);
         $mail->isHTML();
 

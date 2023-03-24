@@ -116,6 +116,10 @@
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/psr/simple-cache" />
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/psr/http-message" />
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/psr/http-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/giggsey/locale" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/giggsey/libphonenumber-for-php" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/symfony/intl" />
+      <excludeFolder url="file://$MODULE_DIR$/app/vendor/odolbeau/phone-number-bundle" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

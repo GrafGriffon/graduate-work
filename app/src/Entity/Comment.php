@@ -43,6 +43,11 @@ class Comment
      */
     private $date;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isAccepted;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,5 +111,17 @@ class Comment
         $this->date = $date;
 
         return $this;
+    }
+
+    public function setIsAccepted(bool $status): self
+    {
+        $this->isAccepted = $status;
+
+        return $this;
+    }
+
+    public function isAccepted(): ?bool
+    {
+        return $this->isAccepted;
     }
 }

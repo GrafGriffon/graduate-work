@@ -122,6 +122,10 @@
       <path value="$PROJECT_DIR$/app/vendor/psr/simple-cache" />
       <path value="$PROJECT_DIR$/app/vendor/psr/http-message" />
       <path value="$PROJECT_DIR$/app/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/app/vendor/giggsey/locale" />
+      <path value="$PROJECT_DIR$/app/vendor/giggsey/libphonenumber-for-php" />
+      <path value="$PROJECT_DIR$/app/vendor/symfony/intl" />
+      <path value="$PROJECT_DIR$/app/vendor/odolbeau/phone-number-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">

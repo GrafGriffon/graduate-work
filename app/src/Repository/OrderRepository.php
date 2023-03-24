@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Order;
+use DateInterval;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,17 +23,20 @@ class OrderRepository extends ServiceEntityRepository
     /**
      * @return int|mixed|string
      */
-    public function getOrdersListSortedByDate(?string $filter = null)
+    public function getOrdersListSortedByDate(?int $status = null, ?string $start, ?string $end)
     {
         $query = $this->createQueryBuilder('o');
-        if ($filter != null){
-            if ($filter == 'true'){
-                $query->andWhere('o.status < :status');
-                $query->setParameter('status', 4);
-            } elseif ($filter == 'false') {
-                $query->andWhere('o.status = :status');
-                $query->setParameter('status', 4);
-            }
+        if ($status != null) {
+            $query->andWhere('o.status = :status');
+            $query->setParameter('status', $status);
+        }
+        if ($start) {
+            $query->andWhere('o.date >= :start');
+            $query->setParameter('start', new \DateTime($start));
+        }
+        if ($end) {
+            $query->andWhere('o.date < :end');
+            $query->setParameter('end', (new \DateTime($end))->add(DateInterval::createFromDateString('1 day')));
         }
         return $query
             ->orderBy('o.date', 'DESC')

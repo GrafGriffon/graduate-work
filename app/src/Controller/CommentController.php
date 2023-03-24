@@ -9,7 +9,9 @@ use App\Form\ProductType;
 use App\Repository\CommentRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
+use App\Services\CustomMailerService;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,10 +25,33 @@ class CommentController extends AbstractController
      */
     public function index(CommentRepository $commentRepository): Response
     {
-
         return $this->render('comment/index.html.twig', [
-            'controller_name' => 'CommentController',
+            'comments' => $commentRepository->findBy([],['date' => 'DESC']),
         ]);
+    }
+
+    /**
+     * @Route("/comment/accept/{id}", name="comment_accept")
+     */
+    public function accept(EntityManagerInterface $manager, Comment $comment, CustomMailerService $service): Response
+    {
+        $title = $comment->getProduct()->getTitle();
+        $service->sendMail($comment->getUser()->getEmail(), 'Dear customer', 'Утвержден комментарий от STROY-BEL',
+            "<p>Уважаемый клиент, ваш комментарий для товара $title утвержден</p>");
+
+        $comment->setIsAccepted(true);
+        $manager->flush();
+        return $this->redirectToRoute('comment');
+    }
+
+    /**
+     * @Route("/comment/delete/{id}", name="comment_delete")
+     */
+    public function delete(EntityManagerInterface $manager, Comment $comment): Response
+    {
+        $manager->remove($comment);
+        $manager->flush();
+        return $this->redirectToRoute('comment');
     }
 
     /**

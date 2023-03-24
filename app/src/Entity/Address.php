@@ -57,6 +57,7 @@ class Address
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->country = 'Беларусь';
     }
 
     public function getId(): ?int

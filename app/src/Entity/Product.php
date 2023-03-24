@@ -19,7 +19,7 @@ class Product
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -292,12 +292,13 @@ class Product
     public function getProductRating()
     {
         $productRating = 0;
-        $productAvgRating = 0;
         $comments = $this->getComments();
         $count = 0;
         foreach ($comments as $comment) {
-            $count++;
-            $productRating += $comment->getRating();
+            if ($comment->isAccepted()){
+                $count++;
+                $productRating += $comment->getRating();
+            }
         }
 
         $productAvgRating = $productRating == 0 ? 0 : $productRating / $count;
