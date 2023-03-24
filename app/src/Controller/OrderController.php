@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -79,8 +80,12 @@ class OrderController extends AbstractController
      */
     public function show(Order $order): Response
     {
+        $user = $this->getUser();
+        if (($user && $user != $order->getUser() && $user->getRoles()[0] != 'ROLE_ADMIN') || $user == null){
+//            return $this->render('bundles/TwigBundle/Exception/error.html.twig');
+            return $this->redirectToRoute('main');
+        }
         $orderedProducts = $order->getOrderProducts();
-//        dd($orderedProducts);
         return $this->render('order/show.html.twig', [
             'order' => $order,
             'orderedProducts' => $orderedProducts
@@ -92,6 +97,11 @@ class OrderController extends AbstractController
      */
     public function edit(Request $request, Order $order, CustomMailerService $service): Response
     {
+        $user = $this->getUser();
+        if (($user && $user->getRoles()[0] != 'ROLE_ADMIN') || $user == null){
+//            return $this->render('bundles/TwigBundle/Exception/error.html.twig');
+            return $this->redirectToRoute('main');
+        }
         $form = $this->createForm(OrderType::class, $order);
 
         $form->remove('address');
@@ -124,6 +134,11 @@ class OrderController extends AbstractController
      */
     public function delete(Request $request, Order $order, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        if (($user && $user->getRoles()[0] != 'ROLE_ADMIN') || $user == null){
+//            return $this->render('bundles/TwigBundle/Exception/error.html.twig');
+            return $this->redirectToRoute('main');
+        }
         if ($this->isCsrfTokenValid('delete' . $order->getId(), $request->request->get('_token'))) {
             $entityManager->remove($order);
             $entityManager->flush();

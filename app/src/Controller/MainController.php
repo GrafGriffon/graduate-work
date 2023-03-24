@@ -148,19 +148,19 @@ class MainController extends AbstractController
 //        $activeWorksheet->getColumnDimensionByColumn(1)->setWidth(20);
 //        $activeWorksheet->getColumnDimensionByColumn(2)->setWidth(50);
 //        $activeWorksheet->getColumnDimensionByColumn(3)->setWidth(20);
-/** @var Order $order */
+        /** @var Order $order */
         foreach ($orders as $order) {
             $products = '';
             $price = 0;
-            foreach ($order->getOrderProducts() as $orderProduct){
-            $title = $orderProduct->getProduct()->getTitle();
-            $onePrice = $orderProduct->getProduct()->getPrice();
-            $quantity = $orderProduct->getQuantity();
-            $price += $quantity*$onePrice;
-            $products .= "$title $quantity шт $onePrice р/шт.";
+            foreach ($order->getOrderProducts() as $orderProduct) {
+                $title = $orderProduct->getProduct()->getTitle();
+                $onePrice = $orderProduct->getProduct()->getPrice();
+                $quantity = $orderProduct->getQuantity();
+                $price += $quantity * $onePrice;
+                $products .= "$title $quantity шт $onePrice р/шт.";
             }
             $activeWorksheet->setCellValueByColumnAndRow(1, $counter, $order->getId());
-            $activeWorksheet->setCellValueByColumnAndRow(2, $counter, $order->getAddress()->getCity() . ' '.$order->getAddress()->getAddress());
+            $activeWorksheet->setCellValueByColumnAndRow(2, $counter, $order->getAddress()->getCity() . ' ' . $order->getAddress()->getAddress());
             $activeWorksheet->setCellValueByColumnAndRow(3, $counter, $order->getUser()->getEmail());
             $activeWorksheet->setCellValueByColumnAndRow(4, $counter, $order->getStatus()->getName());
             $activeWorksheet->setCellValueByColumnAndRow(5, $counter, $order->getDate()->format('d-m-y'));
