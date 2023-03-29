@@ -68,7 +68,7 @@ class AddressController extends AbstractController
         $user = $this->getUser();
         if (($user && $user != $address->getUser() && $user->getRoles()[0] != 'ROLE_ADMIN') || $user == null){
 //            return $this->render('bundles/TwigBundle/Exception/error.html.twig');
-            return $this->redirectToRoute('main');
+            return $this->render('error.html.twig');
         }
         return $this->render('address/show.html.twig', [
             'address' => $address,
@@ -82,7 +82,7 @@ class AddressController extends AbstractController
     {
         $user = $this->getUser();
         if (($user && $user != $address->getUser() && $user->getRoles()[0] != 'ROLE_ADMIN') || $user == null){
-            return $this->redirectToRoute('main');
+            return $this->render('error.html.twig');
         }
         $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);

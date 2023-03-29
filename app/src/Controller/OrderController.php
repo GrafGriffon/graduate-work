@@ -83,7 +83,7 @@ class OrderController extends AbstractController
         $user = $this->getUser();
         if (($user && $user != $order->getUser() && $user->getRoles()[0] != 'ROLE_ADMIN') || $user == null){
 //            return $this->render('bundles/TwigBundle/Exception/error.html.twig');
-            return $this->redirectToRoute('main');
+            return $this->render('error.html.twig');
         }
         $orderedProducts = $order->getOrderProducts();
         return $this->render('order/show.html.twig', [
@@ -100,7 +100,7 @@ class OrderController extends AbstractController
         $user = $this->getUser();
         if (($user && $user->getRoles()[0] != 'ROLE_ADMIN') || $user == null){
 //            return $this->render('bundles/TwigBundle/Exception/error.html.twig');
-            return $this->redirectToRoute('main');
+            return $this->render('error.html.twig');
         }
         $form = $this->createForm(OrderType::class, $order);
 
@@ -137,7 +137,7 @@ class OrderController extends AbstractController
         $user = $this->getUser();
         if (($user && $user->getRoles()[0] != 'ROLE_ADMIN') || $user == null){
 //            return $this->render('bundles/TwigBundle/Exception/error.html.twig');
-            return $this->redirectToRoute('main');
+            return $this->render('error.html.twig');
         }
         if ($this->isCsrfTokenValid('delete' . $order->getId(), $request->request->get('_token'))) {
             $entityManager->remove($order);
