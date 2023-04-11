@@ -40,11 +40,6 @@ class Address
     private $city;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $country;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="addresses")
      */
     private $user;
@@ -57,7 +52,6 @@ class Address
     public function __construct()
     {
         $this->orders = new ArrayCollection();
-        $this->country = 'Беларусь';
     }
 
     public function getId(): ?int
@@ -109,18 +103,6 @@ class Address
     public function setCity(string $city): self
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    public function getCountry(): ?string
-    {
-        return $this->country;
-    }
-
-    public function setCountry(string $country): self
-    {
-        $this->country = $country;
 
         return $this;
     }
