@@ -2,7 +2,7 @@ version: '3'
 services:
   php:
     image: webdevops/php-dev:8.0
-    container_name: php
+    container_name: php-graduate
     environment:
       XDEBUG_CONFIG: idekey=PHPSTORM
     volumes:
@@ -15,12 +15,12 @@ services:
       context: ./docker/nginx
     volumes:
       - ./app:/symfony
-    container_name: nginx
+    container_name: nginx-graduate
     restart: always
     ports:
       - "8081:80"
   db:
-    container_name: db
+    container_name: db-graduate
     image: postgres:12
     restart: always
     environment:

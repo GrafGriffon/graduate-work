@@ -19,7 +19,7 @@
                         </div>
                         <div class="category-menu-list">
                             {% for category in categories %}
-                                <li class="list-group-item"><a href="{{ path('catalog') }}?p=1&c={{ category.id }}"><img alt="" src="images/icons/thum7.png"> {{ category.title }}</a></li>
+                                <li class="list-group-item"><a href="{{ path('catalog') }}?p=1&c={{ category.id }}"> {{ category.title }}</a></li>
                             {% endfor %}
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                         <div class="product__inner">
                             <div class="pro__thumb">
                                 <a href="{{ path('view') }}?id={{ product.id }}">
-                                    <img src="{{ product.image }}" alt="product images">
+                                    <img src="{{ product.image }}" alt="product images" style="height: 200px; width: auto;">
                                 </a>
                             </div>
                             <div class="product__hover__info">
