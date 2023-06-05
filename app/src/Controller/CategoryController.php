@@ -32,6 +32,7 @@ class CategoryController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $category = new Category();
+        $category->setIsActive(true);
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
